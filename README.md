@@ -6,6 +6,9 @@ Including:
 * Selection Sort
 * Insertion Sort
 * Quicksort
+* Heapsort
 * Merge Sort
 
 And: 
+* Binary Search Tree
+* AVL Tree
