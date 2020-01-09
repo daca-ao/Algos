@@ -20,7 +20,18 @@ public class Heapsort {
         // then: build the heap again
         for (int i = length - 1; i > 0; i--) {
             Swapper.swap(a, 0, i);
-            buildHeap(a, 0, i);
+            buildHeap(a, 0, i - 1);
+        }
+    }
+
+    public static void sortRecur(int[] a) {
+        final int length = a.length;
+        for (int i = length / 2 - 1; i >= 0; i--) {
+            buildHeapRecur(a, i, length);
+        }
+        for (int i = length - 1; i > 0; i--) {
+            Swapper.swap(a, 0, i);
+            buildHeapRecur(a, 0, i - 1);
         }
     }
 
@@ -35,8 +46,8 @@ public class Heapsort {
         int originalRootVal = a[root]; // extract the value of root node first
         int maxIndex = pos * 2 + 1; // set maxIndex default to that of left child
 
-        while (maxIndex < size) {
-            if (maxIndex + 1 < size && a[maxIndex] < a[maxIndex + 1]) { // if right child larger than left
+        while (maxIndex <= size) {
+            if (maxIndex + 1 <= size && a[maxIndex] < a[maxIndex + 1]) { // if right child larger than left
                 maxIndex += 1; // set right child as the larger
             }
             if (a[maxIndex] > originalRootVal) {
@@ -52,10 +63,32 @@ public class Heapsort {
         a[pos] = originalRootVal;
     }
 
+    private static void buildHeapRecur(int[] a, int root, int size) {
+        int pos = root;
+        int maxIndex = pos * 2 + 1;
+    
+        if (maxIndex > size) {
+            return;
+        }
+        if (maxIndex + 1 <= size && a[maxIndex] < a[maxIndex + 1]) {
+            maxIndex += 1;
+        }
+        if (a[maxIndex] > a[pos]) {
+            Swapper.swap(a, maxIndex, pos);
+            buildHeapRecur(a, maxIndex, size);
+        }
+    }
+
     public static void main(String[] args) {
         int[] b = { 24, 4, 5, 30, 17, 8, 0, 51, 86 };
-        Heapsort.sort(b);
+        sort(b);
         for (int i : b) {
+            System.out.println(i);
+        }
+        System.out.println();
+        int[] c = { 45, 4, 75, 30, 17, 1, 8, 0, 5, 9, 60 };
+        sortRecur(c);
+        for (int i : c) {
             System.out.println(i);
         }
     }
