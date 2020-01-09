@@ -11,9 +11,7 @@ public class SelectionSort {
                 }
             }
             if (minIndex != i) {
-                final int temp = a[minIndex];
-                a[minIndex] = a[i];
-                a[i] = temp;
+                Swapper.swap(a, minIndex, i);
             }
         }
     }
@@ -32,9 +30,7 @@ public class SelectionSort {
                 }
             }
             if (maxIndex != size - 1) {
-                final int temp = a[maxIndex];
-                a[maxIndex] = a[size - 1];
-                a[size - 1] = temp;
+                Swapper.swap(a, maxIndex, size - 1);
             }
         }
     }

@@ -22,9 +22,8 @@ public class InsertionSort {
         for (int i = 1; i < length; i++) {
             for (int j = i; j > 0; j--) {
                 if (a[j] < a[j - 1]) {
-                    final int temp = a[j];
-                    a[j] = a[j - 1];
-                    a[j - 1] = temp;
+                    // below: behave like SWAP(Bubble Sort, Quicksort)
+                    Swapper.swap(a, j, j-1);
                 }
             }
         }
