@@ -8,6 +8,7 @@ Including:
 * Quicksort
 * Heapsort
 * Merge Sort
+* Radix Sort
 
 And: 
 * Binary Search Tree
