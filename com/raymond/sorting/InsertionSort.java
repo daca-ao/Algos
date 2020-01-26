@@ -31,12 +31,12 @@ public class InsertionSort {
 
     public static void main(String[] args) {
         int[] b = { 4, 5, 1, 0, 14, 22, 16, 31, 67, 58, 49 };
-        InsertionSort.sort(b);
+        sort(b);
         for (int i : b) {
             System.out.println(i);
         }
         int[] c = { 7, 2, 35, 110, 87, 5, 202, 1, 23, 47, 89, 60 };
-        InsertionSort.sortThenSwap(c);
+        sortThenSwap(c);
         for (int i : c) {
             System.out.println(i);
         }

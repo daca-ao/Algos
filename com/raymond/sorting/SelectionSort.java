@@ -37,12 +37,12 @@ public class SelectionSort {
 
     public static void main(String[] args) {
         int[] b = { 7, 631, 12, 43, 6, 58, 102, 9, 0, 84 };
-        SelectionSort.sort(b);
+        sort(b);
         for (int i : b) {
             System.out.println(i);
         }
         int[] c = { 7, 523, 12, 43, 6, 58, 702, 9, 0, 84, 117 };
-        SelectionSort.sortEarlyTerm(c);
+        sortEarlyTerm(c);
         for (int i : c) {
             System.out.println(i);
         }
