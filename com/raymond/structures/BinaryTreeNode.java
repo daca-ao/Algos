@@ -1,13 +1,27 @@
 public class BinaryTreeNode {
-    private int value;
+
+    private Integer value;
     private BinaryTreeNode leftChild;
     private BinaryTreeNode rightChild;
 
-    public int getValue() {
+    public BinaryTreeNode(Integer value) {
+        this.value = value;
+    }
+
+    public BinaryTreeNode(BinaryTreeNode node) {
+        if (node == null) {
+            throw new IllegalArgumentException("ERROR: param node cannot be null.");
+        }
+        this.value = node.getValue();
+        this.leftChild = node.getLeftChild();
+        this.rightChild = node.getRightChild();
+    }
+
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
@@ -26,4 +40,9 @@ public class BinaryTreeNode {
     public void setRightChild(BinaryTreeNode rightChild) {
         this.rightChild = rightChild;
     }
+
+    public void printValue() {
+        System.out.println("Binary tree node value: " + getValue());
+    }
+
 }
