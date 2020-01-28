@@ -7,7 +7,9 @@ abstract class BinaryTree {
 
     abstract void insertNode(Integer value);
 
-    abstract void deleteNode(Integer value);
+    abstract boolean deleteNode(Integer value);
+
+    abstract BinaryTreeNode search(Integer value);
 
     void preOrder(BinaryTreeNode node) {
         if (node != null) {
