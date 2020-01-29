@@ -71,11 +71,11 @@ public class BinarySearchTree extends BinaryTree {
         }
         if (curr.getLeftChild() == null || curr.getRightChild() == null) {
             System.out.println(
-                    "Deleting node " + value + " with " + curr.getLeftChild() != null ? "left" : "right" + " child.");
+                    "Deleting node " + value + " with " + (curr.getLeftChild() != null ? "left" : "right") + " child.");
             if (isInLeft) {
-                parent.setLeftChild(curr.getLeftChild());
+                parent.setLeftChild(curr.getLeftChild() == null ? curr.getRightChild() : curr.getLeftChild());
             } else {
-                parent.setRightChild(curr.getRightChild());
+                parent.setRightChild(curr.getLeftChild() == null ? curr.getRightChild() : curr.getLeftChild());
             }
             return true;
         }
@@ -121,15 +121,16 @@ public class BinarySearchTree extends BinaryTree {
             predecessor = curr;
             curr = curr.getRightChild();
         }
+        // predecessor is in right child of the node's left child
         if (predecessor != node.getLeftChild()) {
             predParent.setRightChild(predecessor.getLeftChild());
-            predecessor.setRightChild(node.getRightChild());
+            predecessor.setLeftChild(node.getLeftChild());
         }
         return predecessor;
     }
 
     public static void main(String[] args) {
-        int[] a = { 7, 4, 3, 11, 2, 6, 10, 25, 9, 1 };
+        int[] a = { 7, 4, 2, 11, 3, 6, 10, 21, 9, 1, 19, 17, 20, 22 };
         BinarySearchTree tree = new BinarySearchTree();
         for (int i : a) {
             tree.insertNode(i);
@@ -143,8 +144,10 @@ public class BinarySearchTree extends BinaryTree {
         System.out.println("\nLevel order:");
         tree.levelOrder(tree.getRoot());
 
-        tree.deleteNode(4);
-        tree.deleteNode(2);
+        System.out.println();
+        tree.deleteNode(10);
+        tree.deleteNode(1);
+        tree.deleteNode(21);
         System.out.println("\nLevel order after delete:");
         tree.levelOrder(tree.getRoot());
     }
