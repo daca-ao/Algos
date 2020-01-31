@@ -1,29 +1,29 @@
 /**
  * Tree without duplicate elements.
  */
-public class BinarySearchTree extends BinaryTree {
+public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
 
     @Override
-    public void insertNode(Integer value) {
+    public void insertNode(T value) {
         if (value == null) {
             System.err.println("Please do not insert a null value.");
             return;
         }
         if (root == null) {
-            root = new BinaryTreeNode(value);
+            root = new BinaryTreeNode<>(value);
             return;
         }
-        BinaryTreeNode node = new BinaryTreeNode(value);
-        BinaryTreeNode curr = root;
+        BinaryTreeNode<T> node = new BinaryTreeNode<>(value);
+        BinaryTreeNode<T> curr = root;
         while (true) {
-            BinaryTreeNode parent = curr;
-            if (value > curr.getValue()) {
+            BinaryTreeNode<T> parent = curr;
+            if (value.compareTo(curr.getValue()) > 0) {
                 curr = curr.getRightChild();
                 if (curr == null) {
                     parent.setRightChild(node);
                     return;
                 }
-            } else if (value < curr.getValue()) {
+            } else if (value.compareTo(curr.getValue()) < 0) {
                 curr = curr.getLeftChild();
                 if (curr == null) {
                     parent.setLeftChild(node);
@@ -37,7 +37,7 @@ public class BinarySearchTree extends BinaryTree {
     }
 
     @Override
-    public boolean deleteNode(Integer value) {
+    public boolean deleteNode(T value) {
         if (value == null) {
             System.out.println("No operation for null value.");
             return false;
@@ -47,13 +47,13 @@ public class BinarySearchTree extends BinaryTree {
             return false;
         }
         // search out the node
-        BinaryTreeNode curr = root;
-        BinaryTreeNode parent = root;
+        BinaryTreeNode<T> curr = root;
+        BinaryTreeNode<T> parent = root;
         boolean isInLeft = true;
         while (value != curr.getValue()) {
-            isInLeft = value < curr.getValue();
+            isInLeft = value.compareTo(curr.getValue()) < 0;
             parent = curr;
-            curr = value > curr.getValue() ? curr.getRightChild() : curr.getLeftChild();
+            curr = value.compareTo(curr.getValue()) > 0 ? curr.getRightChild() : curr.getLeftChild();
             if (curr == null) {
                 System.err.println("Element not found.");
                 return false;
@@ -80,7 +80,7 @@ public class BinarySearchTree extends BinaryTree {
             return true;
         }
         System.out.println("Deleting node " + value + " with children.");
-        BinaryTreeNode predecessor = getPredecessor(curr);
+        BinaryTreeNode<T> predecessor = getPredecessor(curr);
         if (root == curr) {
             root = predecessor;
         } else if (isInLeft) {
@@ -93,7 +93,7 @@ public class BinarySearchTree extends BinaryTree {
     }
 
     @Override
-    BinaryTreeNode search(Integer value) {
+    BinaryTreeNode<T> search(T value) {
         if (value == null) {
             System.err.println("Value " + value + " not exist.");
             return null;
@@ -102,9 +102,9 @@ public class BinarySearchTree extends BinaryTree {
             System.err.println("Empty root. Tree has not been initialized.");
             return null;
         }
-        BinaryTreeNode curr = root;
+        BinaryTreeNode<T> curr = root;
         while (value != curr.getValue()) {
-            curr = value > curr.getValue() ? curr.getRightChild() : curr.getLeftChild();
+            curr = value.compareTo(curr.getValue()) > 0 ? curr.getRightChild() : curr.getLeftChild();
             if (curr == null) {
                 return null;
             }
@@ -112,10 +112,10 @@ public class BinarySearchTree extends BinaryTree {
         return curr;
     }
 
-    private BinaryTreeNode getPredecessor(BinaryTreeNode node) {
-        BinaryTreeNode predParent = node;
-        BinaryTreeNode predecessor = node;
-        BinaryTreeNode curr = node.getLeftChild();
+    private BinaryTreeNode<T> getPredecessor(BinaryTreeNode<T> node) {
+        BinaryTreeNode<T> predParent = node;
+        BinaryTreeNode<T> predecessor = node;
+        BinaryTreeNode<T> curr = node.getLeftChild();
         while (curr != null) {
             predParent = predecessor;
             predecessor = curr;
@@ -131,7 +131,7 @@ public class BinarySearchTree extends BinaryTree {
 
     public static void main(String[] args) {
         int[] a = { 7, 4, 2, 11, 3, 6, 10, 21, 9, 1, 19, 17, 20, 22 };
-        BinarySearchTree tree = new BinarySearchTree();
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         for (int i : a) {
             tree.insertNode(i);
         }
