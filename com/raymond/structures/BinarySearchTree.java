@@ -80,7 +80,7 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
             return true;
         }
         System.out.println("Deleting node " + value + " with children.");
-        BinaryTreeNode<T> predecessor = getPredecessor(curr);
+        BinaryTreeNode<T> predecessor = getPredecessorTree(curr);
         if (root == curr) {
             root = predecessor;
         } else if (isInLeft) {
@@ -112,7 +112,11 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
         return curr;
     }
 
-    private BinaryTreeNode<T> getPredecessor(BinaryTreeNode<T> node) {
+    // Not only get the predecessor
+    private BinaryTreeNode<T> getPredecessorTree(BinaryTreeNode<T> node) {
+        if (node == null) {
+            return null;
+        }
         BinaryTreeNode<T> predParent = node;
         BinaryTreeNode<T> predecessor = node;
         BinaryTreeNode<T> curr = node.getLeftChild();
@@ -121,7 +125,8 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
             predecessor = curr;
             curr = curr.getRightChild();
         }
-        // predecessor is in right child of the node's left child
+        // if predecessor is in right child of the node's left child,<br/>
+        // not the node's left child:
         if (predecessor != node.getLeftChild()) {
             predParent.setRightChild(predecessor.getLeftChild());
             predecessor.setLeftChild(node.getLeftChild());
@@ -129,27 +134,29 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
         return predecessor;
     }
 
-    public static void main(String[] args) {
-        int[] a = { 7, 4, 2, 11, 3, 6, 10, 21, 9, 1, 19, 17, 20, 22 };
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        for (int i : a) {
-            tree.insertNode(i);
+    BinaryTreeNode<T> getPredecessor(BinaryTreeNode<T> node) {
+        if (node == null) {
+            return null;
         }
-        System.out.println("\nPre order:");
-        tree.preOrder(tree.getRoot());
-        System.out.println("\nIn order:");
-        tree.inOrder(tree.getRoot());
-        System.out.println("\nPos order:");
-        tree.posOrder(tree.getRoot());
-        System.out.println("\nLevel order:");
-        tree.levelOrder(tree.getRoot());
-
-        System.out.println();
-        tree.deleteNode(10);
-        tree.deleteNode(1);
-        tree.deleteNode(21);
-        System.out.println("\nLevel order after delete:");
-        tree.levelOrder(tree.getRoot());
+        BinaryTreeNode<T> predecessor = node;
+        BinaryTreeNode<T> curr = node.getLeftChild();
+        while (curr != null) {
+            predecessor = curr;
+            curr = curr.getRightChild();
+        }
+        return predecessor;
     }
 
+    BinaryTreeNode<T> getSuccessor(BinaryTreeNode<T> node) {
+        if (node == null) {
+            return null;
+        }
+        BinaryTreeNode<T> successor = node;
+        BinaryTreeNode<T> curr = node.getRightChild();
+        while (curr != null) {
+            successor = curr;
+            curr = curr.getLeftChild();
+        }
+        return successor;
+    }
 }
