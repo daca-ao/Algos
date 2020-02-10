@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-abstract class BinaryTree<T extends Comparable> {
+abstract class AbstractBinaryTree<T extends Comparable> {
 
     BinaryTreeNode<T> root;
 

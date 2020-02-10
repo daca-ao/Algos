@@ -1,7 +1,7 @@
 /**
- * Tree without duplicate elements.
+ * Binary Search Tree without duplicate elements.
  */
-public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
+public class BinarySearchTree<T extends Comparable> extends AbstractBinarySearchTree<T> {
 
     @Override
     public void insertNode(T value) {
@@ -46,6 +46,7 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
             System.err.println("Tree null. Deletion failed.");
             return false;
         }
+
         // search out the node
         BinaryTreeNode<T> curr = root;
         BinaryTreeNode<T> parent = root;
@@ -59,6 +60,7 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
                 return false;
             }
         }
+
         // reconstruct the tree
         if (curr.getLeftChild() == null && curr.getRightChild() == null) {
             System.out.println("Deleting leaf " + value);
@@ -92,71 +94,4 @@ public class BinarySearchTree<T extends Comparable> extends BinaryTree<T> {
         return true;
     }
 
-    @Override
-    BinaryTreeNode<T> search(T value) {
-        if (value == null) {
-            System.err.println("Value " + value + " not exist.");
-            return null;
-        }
-        if (root == null) {
-            System.err.println("Empty root. Tree has not been initialized.");
-            return null;
-        }
-        BinaryTreeNode<T> curr = root;
-        while (value != curr.getValue()) {
-            curr = value.compareTo(curr.getValue()) > 0 ? curr.getRightChild() : curr.getLeftChild();
-            if (curr == null) {
-                return null;
-            }
-        }
-        return curr;
-    }
-
-    // Not only get the predecessor
-    private BinaryTreeNode<T> getPredecessorTree(BinaryTreeNode<T> node) {
-        if (node == null) {
-            return null;
-        }
-        BinaryTreeNode<T> predParent = node;
-        BinaryTreeNode<T> predecessor = node;
-        BinaryTreeNode<T> curr = node.getLeftChild();
-        while (curr != null) {
-            predParent = predecessor;
-            predecessor = curr;
-            curr = curr.getRightChild();
-        }
-        // if predecessor is in right child of the node's left child,<br/>
-        // not the node's left child:
-        if (predecessor != node.getLeftChild()) {
-            predParent.setRightChild(predecessor.getLeftChild());
-            predecessor.setLeftChild(node.getLeftChild());
-        }
-        return predecessor;
-    }
-
-    BinaryTreeNode<T> getPredecessor(BinaryTreeNode<T> node) {
-        if (node == null) {
-            return null;
-        }
-        BinaryTreeNode<T> predecessor = node;
-        BinaryTreeNode<T> curr = node.getLeftChild();
-        while (curr != null) {
-            predecessor = curr;
-            curr = curr.getRightChild();
-        }
-        return predecessor;
-    }
-
-    BinaryTreeNode<T> getSuccessor(BinaryTreeNode<T> node) {
-        if (node == null) {
-            return null;
-        }
-        BinaryTreeNode<T> successor = node;
-        BinaryTreeNode<T> curr = node.getRightChild();
-        while (curr != null) {
-            successor = curr;
-            curr = curr.getLeftChild();
-        }
-        return successor;
-    }
 }

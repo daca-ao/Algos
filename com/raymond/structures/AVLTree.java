@@ -1,7 +1,11 @@
-public class AVLTree<T extends Comparable> extends BinarySearchTree<T> {
+public class AVLTree<T extends Comparable> extends AbstractBinarySearchTree<T> implements IRotateManager<T> {
 
     @Override
     public void insertNode(T value) {
+        if (value == null) {
+            System.err.println("Please do not insert a null value.");
+            return;
+        }
         root = insertNode(root, value);
     }
 
@@ -12,6 +16,28 @@ public class AVLTree<T extends Comparable> extends BinarySearchTree<T> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public BinaryTreeNode<T> rightRotate(BinaryTreeNode<T> node) {
+        if (node == null || node.getLeftChild() == null) {
+            throw new IllegalArgumentException("Node does not have left child.");
+        }
+        BinaryTreeNode<T> rotate = node.getLeftChild();
+        node.setLeftChild(rotate.getRightChild());
+        rotate.setRightChild(node);
+        return rotate;
+    }
+
+    @Override
+    public BinaryTreeNode<T> leftRotate(BinaryTreeNode<T> node) {
+        if (node == null || node.getRightChild() == null) {
+            throw new IllegalArgumentException("Node does not have right child.");
+        }
+        BinaryTreeNode<T> rotate = node.getRightChild();
+        node.setRightChild(rotate.getLeftChild());
+        rotate.setLeftChild(node);
+        return rotate;
     }
 
     private BinaryTreeNode<T> insertNode(BinaryTreeNode<T> node, T value) {
@@ -108,9 +134,7 @@ public class AVLTree<T extends Comparable> extends BinarySearchTree<T> {
      * @return new root of the sub-tree
      */
     private BinaryTreeNode<T> singleRotateLeft(BinaryTreeNode<T> node) {
-        BinaryTreeNode<T> rotate = node.getLeftChild();
-        node.setLeftChild(rotate.getRightChild());
-        rotate.setRightChild(node);
+        BinaryTreeNode<T> rotate = rightRotate(node);
         node.setHeight(1 + Math.max(getHeight(node.getLeftChild()), getHeight(node.getRightChild())));
         rotate.setHeight(1 + Math.max(getHeight(rotate.getLeftChild()), getHeight(node)));
         return rotate;
@@ -124,9 +148,7 @@ public class AVLTree<T extends Comparable> extends BinarySearchTree<T> {
      * @return new root of the sub-tree
      */
     private BinaryTreeNode<T> singleRotateRight(BinaryTreeNode<T> node) {
-        BinaryTreeNode<T> rotate = node.getRightChild();
-        node.setRightChild(rotate.getLeftChild());
-        rotate.setLeftChild(node);
+        BinaryTreeNode<T> rotate = leftRotate(node);
         node.setHeight(1 + Math.max(getHeight(node.getLeftChild()), getHeight(node.getRightChild())));
         rotate.setHeight(1 + Math.max(getHeight(node), getHeight(rotate.getRightChild())));
         return rotate;

@@ -1,6 +1,13 @@
+/**
+ * Reference: HashMap.TreeNode
+ * 
+ * @param <T> Genericity for node value
+ */
 public class BinaryTreeNode<T extends Comparable> {
 
     private T value;
+    private boolean isRed = true; // default: mark it as red
+    private BinaryTreeNode<T> parent;
     private BinaryTreeNode<T> leftChild;
     private BinaryTreeNode<T> rightChild;
     private int height;
@@ -10,22 +17,20 @@ public class BinaryTreeNode<T extends Comparable> {
         this.height = 1;
     }
 
-    public BinaryTreeNode(BinaryTreeNode<T> node) {
-        if (node == null) {
-            throw new IllegalArgumentException("ERROR: param node cannot be null.");
-        }
-        this.value = node.getValue();
-        this.leftChild = node.getLeftChild();
-        this.rightChild = node.getRightChild();
-        this.height = 1;
-    }
-
     public T getValue() {
         return value;
     }
 
     public void setValue(T value) {
         this.value = value;
+    }
+
+    public BinaryTreeNode<T> getParent() {
+        return parent;
+    }
+
+    public void setParent(BinaryTreeNode<T> parent) {
+        this.parent = parent;
     }
 
     public BinaryTreeNode<T> getLeftChild() {
@@ -54,6 +59,19 @@ public class BinaryTreeNode<T extends Comparable> {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public boolean isRed() {
+        return isRed;
+    }
+
+    /**
+     * Set color of Red-Black Tree node
+     * 
+     * @param isRed true for RED, false for BLACK
+     */
+    public void setColor(boolean isRed) {
+        this.isRed = isRed;
     }
 
 }
