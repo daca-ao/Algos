@@ -1,5 +1,5 @@
 # Algos
-Sorting algorithms &amp; structures using Java
+Sorting algorithms &amp; structures using Java for implementation
 
 Including:
 * Bubble Sort
@@ -11,5 +11,6 @@ Including:
 * Radix Sort
 
 And: 
-* Binary Search Tree
+* Ordinary Binary Search Tree
 * AVL Tree
+* Red-Black Tree
