@@ -38,12 +38,12 @@ public class BinarySearchTree<T extends Comparable> extends AbstractBinarySearch
 
     @Override
     public boolean deleteNode(T value) {
-        if (value == null) {
-            System.out.println("No operation for null value.");
-            return false;
-        }
         if (root == null) {
             System.err.println("Tree null. Deletion failed.");
+            return false;
+        }
+        if (value == null) {
+            System.out.println("No operation for null value.");
             return false;
         }
 
@@ -54,7 +54,7 @@ public class BinarySearchTree<T extends Comparable> extends AbstractBinarySearch
         while (value != curr.getValue()) {
             isInLeft = value.compareTo(curr.getValue()) < 0;
             parent = curr;
-            curr = value.compareTo(curr.getValue()) > 0 ? curr.getRightChild() : curr.getLeftChild();
+            curr = isInLeft ? curr.getLeftChild() : curr.getRightChild();
             if (curr == null) {
                 System.err.println("Element not found.");
                 return false;
@@ -63,7 +63,7 @@ public class BinarySearchTree<T extends Comparable> extends AbstractBinarySearch
 
         // reconstruct the tree
         if (curr.getLeftChild() == null && curr.getRightChild() == null) {
-            System.out.println("Deleting leaf " + value);
+            System.out.println("Deleting leaf " + value + ".");
             if (isInLeft) {
                 parent.setLeftChild(null);
             } else {
@@ -72,12 +72,12 @@ public class BinarySearchTree<T extends Comparable> extends AbstractBinarySearch
             return true;
         }
         if (curr.getLeftChild() == null || curr.getRightChild() == null) {
-            System.out.println(
-                    "Deleting node " + value + " with " + (curr.getLeftChild() != null ? "left" : "right") + " child.");
+            boolean isLeftExist = curr.getLeftChild() != null;
+            System.out.println("Deleting node " + value + " with " + (isLeftExist ? "left" : "right") + " child.");
             if (isInLeft) {
-                parent.setLeftChild(curr.getLeftChild() == null ? curr.getRightChild() : curr.getLeftChild());
+                parent.setLeftChild(isLeftExist ? curr.getLeftChild() : curr.getRightChild());
             } else {
-                parent.setRightChild(curr.getLeftChild() == null ? curr.getRightChild() : curr.getLeftChild());
+                parent.setRightChild(isLeftExist ? curr.getLeftChild() : curr.getRightChild());
             }
             return true;
         }

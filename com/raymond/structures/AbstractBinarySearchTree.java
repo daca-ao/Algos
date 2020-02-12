@@ -2,14 +2,15 @@ abstract class AbstractBinarySearchTree<T extends Comparable> extends AbstractBi
 
     @Override
     BinaryTreeNode<T> search(T value) {
-        if (value == null) {
-            System.err.println("Value " + value + " not exist.");
-            return null;
-        }
         if (root == null) {
-            System.err.println("Empty root. Tree has not been initialized.");
+            System.err.println("Tree null. Deletion failed.");
             return null;
         }
+        if (value == null) {
+            System.err.println("No operation for null value.");
+            return null;
+        }
+
         BinaryTreeNode<T> curr = root;
         while (value != curr.getValue()) {
             curr = value.compareTo(curr.getValue()) > 0 ? curr.getRightChild() : curr.getLeftChild();

@@ -63,9 +63,10 @@ public class TreeTest {
         rbTree.levelOrder(rbTree.getRoot());
 
         System.out.println();
-        // rbTree.deleteNode(12);
-        // rbTree.deleteNode(1);
-        // rbTree.deleteNode(9);
+        rbTree.deleteNode(12);
+        rbTree.deleteNode(1);
+        rbTree.deleteNode(9);
+        rbTree.deleteNode(2);
         System.out.println("\nLevel order after delete:");
         rbTree.levelOrder(rbTree.getRoot());
     }

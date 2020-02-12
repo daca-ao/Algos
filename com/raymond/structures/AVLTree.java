@@ -11,6 +11,10 @@ public class AVLTree<T extends Comparable> extends AbstractBinarySearchTree<T> i
 
     @Override
     public boolean deleteNode(T value) {
+        if (root == null) {
+            System.err.println("Tree null. Deletion failed.");
+            return false;
+        }
         if (search(value) != null) {
             root = deleteNode(root, value);
             return true;
@@ -119,7 +123,7 @@ public class AVLTree<T extends Comparable> extends AbstractBinarySearchTree<T> i
                 }
             } else {
                 // the node has only one child, or none
-                System.out.println("Deleting node " + value);
+                System.out.println("Deleting node " + value + ".");
                 node = node.getLeftChild() != null ? node.getLeftChild() : node.getRightChild();
             }
         }
