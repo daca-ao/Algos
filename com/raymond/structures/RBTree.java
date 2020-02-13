@@ -44,8 +44,46 @@ public class RBTree<T extends Comparable> extends AbstractBinarySearchTree<T> im
 
     @Override
     public boolean deleteNode(T value) {
-        // TODO
-        return false;
+        // search out the node to be deleted
+        BinaryTreeNode<T> node = search(value);
+        if (node == null) {
+            System.err.println("Element not found.");
+            return false;
+        }
+
+        System.out.println("Deleting node " + value + ".");
+
+        BinaryTreeNode<T> replacement = node.getLeftChild() == null || node.getRightChild() == null ? node
+                : getPredecessor(node);
+        BinaryTreeNode<T> subTreeToBeAdjusted = replacement.getLeftChild() != null ? replacement.getLeftChild()
+                : replacement.getRightChild();
+
+        // set to remove the predecessor
+        BinaryTreeNode<T> parent = replacement.getParent();
+        if (subTreeToBeAdjusted != null) {
+            subTreeToBeAdjusted.setParent(parent);
+        }
+        if (parent == null) {
+            root = subTreeToBeAdjusted;
+        } else if (replacement == parent.getLeftChild()) {
+            parent.setLeftChild(subTreeToBeAdjusted);
+        } else {
+            parent.setRightChild(subTreeToBeAdjusted);
+        }
+
+        // to reduce the effort:
+        // simply replace the value of the node to be deleted by that of replacement
+        // reduce pointer switching
+        if (replacement != node) {
+            node.setValue(replacement.getValue());
+        }
+
+        // subtree's parent (the deleted node) is BLACK: need adjustment
+        // no need for adjusting tree that a RED node is removed
+        if (!replacement.isRed()) {
+            deleteFixup(subTreeToBeAdjusted, parent);
+        }
+        return true;
     }
 
     @Override
@@ -142,6 +180,97 @@ public class RBTree<T extends Comparable> extends AbstractBinarySearchTree<T> im
             }
         }
         root.setColor(BLACK);
+    }
+
+    /**
+     * 
+     * @param node
+     * @param parent for erasing leaf node, in this case, node == null and it does
+     *               not have brother
+     */
+    private void deleteFixup(BinaryTreeNode<T> node, BinaryTreeNode<T> parent) {
+        // if node == root: BLACK counts for all links to leaves are reduced by 1 ->
+        // It's OK.
+        // but if node != root:
+        while (root != node && (node == null || !node.isRed())) {
+            if (parent.getLeftChild() == node) {
+                BinaryTreeNode<T> brother = parent.getRightChild();
+                if (brother == null) {
+                    // brother cannot be null
+                    throw new IllegalArgumentException("Brother node must exist.");
+                }
+                if (brother.isRed()) {
+                    brother.setColor(BLACK);
+                    parent.setColor(RED);
+                    leftRotate(parent);
+                    brother = parent.getRightChild(); // new brother that is black
+                }
+
+                // if brother is BLACK:
+                if ((brother.getLeftChild() == null || !brother.getLeftChild().isRed())
+                        && (brother.getRightChild() == null || !brother.getRightChild().isRed())) {
+                    // all nephew nodes are BLACK
+                    brother.setColor(RED);
+                    node = parent; // prepare for upper fixup
+                    parent = node.getParent();
+
+                } else {
+                    if (brother.getRightChild() == null || !brother.getRightChild().isRed()) {
+                        // left nephew is RED, right nephew is BLACK
+                        brother.setColor(RED);
+                        brother.getLeftChild().setColor(BLACK);
+                        brother = rightRotate(brother);
+                    }
+                    // no matter what color left nephew is, right nephew is RED
+                    brother.setColor(parent.isRed());
+                    brother.getRightChild().setColor(BLACK);
+                    parent.setColor(BLACK);
+                    leftRotate(parent);
+
+                    // terminate the loop
+                    node = root;
+                    break;
+                }
+
+            } else { // mirror operation
+                BinaryTreeNode<T> brother = parent.getLeftChild();
+                if (brother == null) {
+                    // brother cannot be null
+                    throw new IllegalArgumentException("Brother node must exist.");
+                }
+                if (brother.isRed()) {
+                    brother.setColor(BLACK);
+                    parent.setColor(RED);
+                    rightRotate(parent);
+                    brother = parent.getLeftChild();
+                }
+
+                if ((brother.getLeftChild() == null || !brother.getLeftChild().isRed())
+                        && (brother.getRightChild() == null || !brother.getRightChild().isRed())) {
+                    brother.setColor(RED);
+                    node = parent;
+                    parent = node.getParent();
+
+                } else {
+                    if (brother.getLeftChild() == null || !brother.getLeftChild().isRed()) {
+                        brother.setColor(RED);
+                        brother.getRightChild().setColor(BLACK);
+                        brother = leftRotate(brother);
+                    }
+                    brother.setColor(parent.isRed());
+                    brother.getLeftChild().setColor(BLACK);
+                    parent.setColor(BLACK);
+                    rightRotate(parent);
+
+                    node = root;
+                    break;
+                }
+            }
+        }
+
+        if (node != null) {
+            node.setColor(BLACK);
+        }
     }
 
 }

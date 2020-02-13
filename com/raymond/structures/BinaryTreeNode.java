@@ -68,10 +68,10 @@ public class BinaryTreeNode<T extends Comparable> {
     /**
      * Set color of Red-Black Tree node
      * 
-     * @param isRed true for RED, false for BLACK
+     * @param color true for RED, false for BLACK
      */
-    public void setColor(boolean isRed) {
-        this.isRed = isRed;
+    public void setColor(boolean color) {
+        this.isRed = color;
     }
 
 }
