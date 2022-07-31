@@ -3,7 +3,7 @@ abstract class AbstractBinarySearchTree<T extends Comparable> extends AbstractBi
     @Override
     BinaryTreeNode<T> search(T value) {
         if (root == null) {
-            System.err.println("Tree null. Deletion failed.");
+            System.err.println("Tree null.");
             return null;
         }
         if (value == null) {
